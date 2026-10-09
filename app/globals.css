@@ -1,0 +1,349 @@
+@import "tailwindcss";
+
+/*
+  Meda Technology design tokens.
+  One accent (vermilion #f53003), warm-neutral stone base, single radius scale
+  (12px controls, 16px surfaces, full for pills). Theme is locked per page and
+  switched only by prefers-color-scheme or the explicit .dark class.
+*/
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-mute: var(--ink-mute);
+  --color-ink-faint: var(--ink-faint);
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+}
+
+@layer base {
+  :root {
+    --page: #f8f8f7;
+    --surface: #ffffff;
+    --surface-2: #f1f0ef;
+    --ink: #1c1b18;
+    --ink-soft: #56534a;
+    --ink-mute: #7a7566;
+    --ink-faint: #a09a8b;
+    --line: #e2e0d8;
+    --line-strong: #cdcabe;
+
+    --accent: #d42903;
+    --accent-hover: #ab2102;
+    --accent-ink: #ffffff;
+    --accent-soft: rgba(212, 41, 3, 0.08);
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page: #1a1916;
+      --surface: #232220;
+      --surface-2: #2c2b28;
+      --ink: #ededE9;
+      --ink-soft: #b0ada4;
+      --ink-mute: #8e8b82;
+      --ink-faint: #6b6862;
+      --line: #37352f;
+      --line-strong: #4a4842;
+
+      --accent: #ff613d;
+      --accent-hover: #fe9c86;
+      --accent-ink: #2a0d05;
+      --accent-soft: rgba(255, 97, 61, 0.12);
+      color-scheme: dark;
+    }
+  }
+
+  html.dark {
+    --page: #1a1916;
+    --surface: #232220;
+    --surface-2: #2c2b28;
+    --ink: #ededE9;
+    --ink-soft: #b0ada4;
+    --ink-mute: #8e8b82;
+    --ink-faint: #6b6862;
+    --line: #37352f;
+    --line-strong: #4a4842;
+    --accent: #ff613d;
+    --accent-hover: #fe9c86;
+    --accent-ink: #2a0d05;
+    --accent-soft: rgba(255, 97, 61, 0.12);
+    color-scheme: dark;
+  }
+
+  html.light {
+    --page: #f8f8f7;
+    --surface: #ffffff;
+    --surface-2: #f1f0ef;
+    --ink: #1c1b18;
+    --ink-soft: #56534a;
+    --ink-mute: #7a7566;
+    --ink-faint: #a09a8b;
+    --line: #e2e0d8;
+    --line-strong: #cdcabe;
+    --accent: #d42903;
+    --accent-hover: #ab2102;
+    --accent-ink: #ffffff;
+    --accent-soft: rgba(212, 41, 3, 0.08);
+    color-scheme: light;
+  }
+
+  * {
+    border-color: var(--line);
+  }
+
+  body {
+    background-color: var(--page);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 1360px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .wrap {
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .wrap {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+  }
+
+  .prose-body {
+    max-width: 62ch;
+    line-height: 1.7;
+  }
+}
+
+/* Marquee: logo strip + one positioned glow overlay. Disabled under reduced motion. */
+@keyframes meda-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.meda-marquee {
+  display: flex;
+  width: max-content;
+  animation: meda-marquee 42s linear infinite;
+  will-change: transform;
+}
+
+.meda-marquee-mask {
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+/*
+  Client marks are dark ink on transparent, so they need inverting and lifting on
+  a dark page. The dark: utility variants cannot do this: `dark` is defined as a
+  class variant here, so it never fires for users who are on system dark without
+  having pressed the toggle, while the colour tokens do follow prefers-color-scheme.
+  Matching both selectors keeps the marks legible in every case.
+
+  Resting opacity lives here rather than on a Tailwind utility: a rule inside
+  @layer components loses to the utilities layer regardless of specificity, so an
+  opacity utility on the element would pin the value at every theme.
+*/
+.dark-invert-logo {
+  opacity: 0.55;
+  filter: grayscale(1);
+  transition:
+    opacity 0.3s,
+    filter 0.3s;
+}
+
+.dark-invert-logo:hover {
+  opacity: 0.9;
+  filter: grayscale(0);
+}
+
+@media (prefers-color-scheme: dark) {
+  .dark-invert-logo {
+    filter: invert(1);
+    opacity: 0.7;
+  }
+}
+
+.dark .dark-invert-logo {
+  filter: invert(1);
+  opacity: 0.7;
+}
+
+.marquee-paused:hover .meda-marquee,
+.meda-marquee-group:focus-within .meda-marquee {
+  animation-play-state: paused;
+}
+
+@keyframes meda-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(0.86);
+  }
+}
+
+.meda-pulse {
+  animation: meda-pulse 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+  Hero copy entrance. Each line of the block is marked with a --hero-i index and
+  fades up on load, offset by that index, so the headline, paragraph and buttons
+  arrive in reading order rather than all at once. The delay is 0 on index 0 so
+  the first line paints immediately.
+
+  `both` fill mode holds the from-state during the delay, so nothing flashes in
+  before its turn. The reduced-motion block in @layer base collapses the
+  duration, which leaves every line resting at its final state.
+*/
+.hero-rise {
+  animation: hero-rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--hero-i, 0) * 0.09s);
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+  Magnetic phone drift. The element's own tilt is carried on `data-tilt` and
+  folded into `transform` here, because the standalone `rotate` property Tailwind
+  emits cannot compose with an animated `transform` — whichever is later in the
+  cascade wins outright, flipping the phone upright.
+
+  The custom properties are written from JS as raw `px` strings and transitioned
+  here, so pointer movement never triggers a React render.
+
+  The free axis — x for the upright phone, y for the tilted one — stays 0px. A
+  phone is a rigid object: it should lean toward the pointer, not stretch.
+*/
+.phone-magnet {
+  --mx: 0px;
+  --my: 0px;
+  --tilt: 0deg;
+  transform: rotate(var(--tilt)) translate3d(var(--mx), var(--my), 0);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
+.phone-magnet[data-tilt='0'] {
+  --mx: 0px;
+}
+
+@media (min-width: 40rem) {
+  .phone-magnet[data-tilt='-5'] {
+    --tilt: -5deg;
+  }
+}
+
+/*
+  Services spec panel. The panel is re-keyed per layer, so the wipe replays on
+  every selection. `--i` is written inline per block and consumed by the delay,
+  which is the only per-row value that changes between layers.
+*/
+@keyframes spec-sweep {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes spec-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.spec-in {
+  animation: spec-sweep 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.spec-row {
+  animation: spec-reveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--i, 0) * 55ms + 60ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spec-in,
+  .spec-row {
+    animation: none;
+  }
+}

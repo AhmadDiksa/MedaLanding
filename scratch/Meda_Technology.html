@@ -1,0 +1,1176 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Meda Technology</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' gradientUnits='userSpaceOnUse' x1='0' y1='6' x2='0' y2='94'%3E%3Cstop offset='0' stop-color='%235B36C9'/%3E%3Cstop offset='.5' stop-color='%234873CC'/%3E%3Cstop offset='1' stop-color='%2353C3DD'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg transform='rotate(42 50 50)'%3E%3Cpath d='M22 22H40C33 6 69 6 62 22H78V40C94 33 94 67 78 60V78H22V62L31 52L22 42Z' fill='none' stroke='url(%23g)' stroke-width='9' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Martian+Mono:wght@300..500&family=Poppins:wght@400;500;800&display=swap">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+/* Concept: soft periwinkle sheet, plum linework, brand magenta for what is active, and the logo's purple-to-cyan gradient as the accent.
+   The process is a sheet of paper (the brief) folded into a paper plane, which then flies over the rest of the page as you scroll.
+   Layout: condensed display type against a fixed 3D model; text lives in drawing "title blocks" instead of cards. */
+:root{
+  --bg:#BFD0FC; --bg2:#D3DFFE; --surface:#E6ECFF; --fg:#3A1830; --muted:#6A3E5B; --soft:#6F5A92;
+  --line:rgba(58,24,48,.26); --hair:rgba(58,24,48,.12);
+  --accent:#CF2E65; --accent-text:#A12355; --solid:#F1F4FF; --on-fg:#F8F5FF;
+  --g1:#5B36C9; --g2:#4873CC; --g3:#53C3DD; --maroon:#7A374A; --grad:linear-gradient(100deg,var(--g1),var(--g2) 55%,var(--g3));
+  --sans:'Archivo',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+  --mono:'Martian Mono',ui-monospace,Menlo,Consolas,monospace;
+  --gut:clamp(20px,5.5vw,88px); --ruler:0px;
+}
+:root{color-scheme:light}
+@media (min-width:900px){:root{--ruler:34px}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(900px 620px at 12% 0%,rgba(255,255,255,.6),transparent 62%),radial-gradient(1000px 700px at 92% 100%,rgba(120,130,235,.38),transparent 62%),linear-gradient(180deg,var(--bg2),var(--bg)),var(--bg);}
+body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(var(--hair) 1px,transparent 1px),linear-gradient(90deg,var(--hair) 1px,transparent 1px);
+  background-size:120px 120px;opacity:.3;
+  -webkit-mask-image:radial-gradient(ellipse at 70% 40%,#000 10%,transparent 75%);mask-image:radial-gradient(ellipse at 70% 40%,#000 10%,transparent 75%)}
+#gl{position:fixed;inset:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none}
+#labels{position:fixed;inset:0;z-index:3;pointer-events:none;overflow:hidden}
+#fly{position:fixed;inset:0;width:100%;height:100%;z-index:6;display:block;pointer-events:none;visibility:hidden}
+#labels2{position:fixed;inset:0;z-index:7;pointer-events:none;overflow:hidden}
+main,footer{position:relative;z-index:2}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+h1,h2,h3,p,ul,ol,dl,dd{margin:0}
+ul,ol{padding:0;list-style:none}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.mono{font-family:var(--mono);font-size:10.5px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.cond{font-family:var(--sans);font-stretch:66%;font-weight:800;text-transform:uppercase;letter-spacing:.004em;line-height:.9}
+.js .rv{opacity:0}
+
+/* ruler */
+.ruler{position:fixed;left:0;top:0;bottom:0;width:var(--ruler);z-index:9;pointer-events:none;display:none;border-right:1px solid var(--line);
+  background:
+    repeating-linear-gradient(180deg,var(--line) 0 1px,transparent 1px 8px) left/7px 100% no-repeat,
+    repeating-linear-gradient(180deg,var(--fg) 0 1px,transparent 1px 40px) left/14px 100% no-repeat}
+@media (min-width:900px){.ruler{display:block}}
+.rm{position:absolute;left:0;top:0;width:var(--ruler);height:0;border-top:2px solid var(--accent);transition:none}
+.rm span{position:absolute;left:calc(var(--ruler) + 8px);top:-8px;writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;color:var(--accent-text);background:var(--bg);padding:2px 6px}
+
+/* nav */
+.nav{position:fixed;top:0;left:var(--ruler);right:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px var(--gut);
+  background:linear-gradient(var(--bg) 35%,transparent)}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--maroon)}
+.logo svg{width:54px;height:54px;flex:none;overflow:visible}
+.logo .lt{display:flex;flex-direction:column;align-items:flex-start;line-height:1}
+.logo b{font-family:Poppins,var(--sans);font-weight:800;font-size:27px;letter-spacing:.015em;color:var(--accent);line-height:.98}
+.logo i{font-family:Poppins,var(--sans);font-style:normal;font-weight:400;font-size:13.2px;letter-spacing:.035em;margin-top:3px;color:var(--maroon)}
+footer .logo svg{width:42px;height:42px}
+.nav nav{display:flex;align-items:center;gap:26px}
+.nav nav a{font-size:14px;text-decoration:none;color:var(--muted);transition:color .2s}
+.nav nav a:hover{color:var(--fg)}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 20px;border:1px solid var(--accent);border-radius:999px;background:var(--accent);color:#fff;font:inherit;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.btn:hover{background:var(--fg);border-color:var(--fg);color:var(--on-fg)}
+.btn.ghost{background:transparent;border-color:var(--fg);color:var(--fg)}
+.btn.ghost:hover{background:var(--fg);border-color:var(--fg);color:var(--on-fg)}
+.nav .btn{padding:9px 18px;color:#fff}
+.nav .btn:hover{color:var(--on-fg)}
+
+/* hero */
+.hero{position:relative;min-height:100vh;padding:max(14vh,110px) var(--gut) 56px calc(var(--gut) + var(--ruler));display:flex;flex-direction:column;justify-content:center}
+.hero .mono{margin-bottom:14px}
+.display{font-size:clamp(88px,min(16vw,31vh),280px);margin-left:-.04em}
+.display .ln{display:block;overflow:hidden;padding-bottom:.04em}
+.display .ln.acc{color:var(--accent)}
+.display .c{display:inline-block;will-change:transform}
+.hero .lead{max-width:430px;margin-top:22px;font-size:17px;color:var(--muted)}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.dim{display:flex;flex-wrap:wrap;margin-top:44px;max-width:640px}
+.dim li{position:relative;padding:12px 18px 0 0;margin-right:18px;border-top:1px solid var(--line);font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.dim li::before,.dim li::after{content:"";position:absolute;top:-5px;width:1px;height:9px;background:var(--line)}
+.dim li::before{left:0}.dim li::after{right:0}
+.dim li:last-child{margin-right:0}
+
+/* pinned scenes */
+.pin{position:relative}
+#services{height:640vh}
+#process{height:540vh}
+#products{height:380vh}
+.stick{position:sticky;top:0;height:100vh;overflow:hidden;padding-left:calc(var(--gut) + var(--ruler));padding-right:var(--gut)}
+.hd{position:absolute;left:calc(var(--gut) + var(--ruler));top:max(12vh,92px);max-width:460px}
+.t{font-size:clamp(40px,4.8vw,80px);margin-top:10px}
+.hd .intro{margin-top:14px;max-width:380px;color:var(--muted);font-size:15px}
+.tb{position:absolute;border-radius:18px;container-type:inline-size;left:calc(var(--gut) + var(--ruler));bottom:6vh;width:min(440px,calc(100vw - 2 * var(--gut)));border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 82%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.tb-h{display:flex;justify-content:space-between;gap:12px;padding:9px 14px;border-bottom:1px solid var(--line)}
+.tb h3{font-size:clamp(30px,min(4.6vw,13.4cqw),68px);padding:14px 14px 4px}
+.tb .head{padding:0 14px;font-size:17px;font-weight:600;line-height:1.3}
+.tb .copy{padding:8px 14px 0;color:var(--muted);font-size:14.5px}
+.rows{margin-top:14px;border-top:1px solid var(--hair)}
+.rows li{padding:8px 14px;border-bottom:1px solid var(--hair);font-size:14px;display:flex;gap:10px}
+.rows li::before{content:"";flex:0 0 10px;height:1px;background:var(--accent);margin-top:.8em}
+.tb .foot{padding:10px 14px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.legendlist{position:absolute;right:var(--gut);top:50%;transform:translateY(-50%);display:none;flex-direction:column;gap:14px;text-align:right}
+@media (min-width:1100px){.legendlist{display:flex}}
+.legendlist li{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);transition:color .3s}
+.legendlist li.on{color:var(--accent-text)}
+.legendlist li.on::after{content:"";display:inline-block;width:28px;height:1px;background:var(--accent);vertical-align:middle;margin-left:10px}
+
+/* process panel */
+.pp{position:absolute;border-radius:18px;left:calc(var(--gut) + var(--ruler));right:var(--gut);bottom:calc(5vh + 78px);display:grid;grid-template-columns:minmax(0,1fr);gap:14px;align-items:end;
+  border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 82%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);padding:12px 16px}
+.pp h3{font-size:clamp(34px,5vw,72px)}
+.pp dl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.pp dt{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-text);margin-bottom:4px}
+.pp dd{font-size:14px;color:var(--fg)}
+@media (min-width:1000px){.pp{grid-template-columns:minmax(0,.7fr) minmax(0,1.5fr)}}
+.rail{position:absolute;left:calc(var(--gut) + var(--ruler));right:var(--gut);bottom:5vh;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;padding-top:12px;border-top:1px solid var(--line)}
+.rail::before{content:"";position:absolute;left:0;top:-1px;height:3px;border-radius:3px;width:var(--p,0%);background:var(--grad)}
+.rail li{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);transition:color .3s;min-width:0}
+.rail li b{display:block;font-weight:500;font-size:11px;margin-bottom:2px}
+.rail li.on{color:var(--fg)}
+.rail li.on b{color:var(--accent-text)}
+
+/* product panel specifics */
+.cov{padding:12px 14px 0;color:var(--muted)}
+.cap{position:absolute;right:var(--gut);bottom:3vh;color:var(--soft)}
+
+/* flat sections */
+.flat{position:relative;z-index:2;padding:clamp(80px,12vw,150px) var(--gut) clamp(80px,12vw,150px) calc(var(--gut) + var(--ruler))}
+.flat.clear{background:transparent;min-height:100vh;display:flex;align-items:center}
+.flat .t{max-width:11ch}
+.flat .big{font-size:clamp(34px,6vw,96px)}
+.two{display:grid;grid-template-columns:minmax(0,1fr);gap:40px}
+@media (min-width:960px){.two{grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr);gap:72px}}
+.slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:40px}
+.slot{border-radius:16px;border:1px dashed var(--line);padding:16px;min-height:220px;display:grid;align-content:start;gap:10px}
+.slot i{display:block;height:1px;background:var(--hair)}
+.slot span{display:block}
+.note{margin-top:18px;max-width:52ch;color:var(--muted);font-size:14.5px}
+.pillars li{display:grid;grid-template-columns:minmax(0,1fr);gap:4px;padding:20px 0;border-top:1px solid var(--line)}
+.pillars li:last-child{border-bottom:1px solid var(--line)}
+.pillars h3{font-size:clamp(30px,3.6vw,52px)}
+.pillars p{color:var(--muted);max-width:46ch}
+@media (min-width:700px){.pillars li{grid-template-columns:minmax(0,.9fr) minmax(0,1fr);gap:24px;align-items:baseline}}
+.statement{font-size:clamp(20px,2.3vw,30px);line-height:1.3;font-weight:500;max-width:28ch;margin-top:22px}
+.faq details{border-top:1px solid var(--line);padding:18px 0}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;font-size:clamp(17px,1.6vw,21px);font-weight:600}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--mono);color:var(--accent-text);flex:0 0 auto}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin-top:10px;color:var(--muted);max-width:60ch}
+
+/* contact */
+.cform{display:grid;gap:12px;max-width:520px;margin-top:26px}
+.cform label{display:grid;gap:6px}
+.cform input,.cform select,.cform textarea{font:inherit;font-size:15px;color:var(--fg);padding:12px 12px;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--surface) 88%,transparent);width:100%}
+.cform input:focus,.cform select:focus,.cform textarea:focus{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent)}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.acts{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.status{min-height:1.5em;color:var(--muted);font-size:14px}
+.email{display:inline-block;margin-top:22px;font-size:clamp(20px,2.4vw,30px);font-weight:600;border-bottom:2px solid var(--accent);text-decoration:none;word-break:break-all}
+footer{padding:36px var(--gut) 36px calc(var(--gut) + var(--ruler));display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);position:relative;z-index:2}
+footer ul{display:flex;gap:20px;flex-wrap:wrap}
+footer a{text-decoration:none;color:var(--muted);font-size:14px}
+footer a:hover{color:var(--fg)}
+
+/* 3D labels */
+.lab{position:absolute;left:0;top:0;opacity:0;white-space:nowrap;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-text);will-change:transform,opacity}
+.lab::before{content:"";display:inline-block;width:22px;height:1px;background:currentColor;vertical-align:middle;margin-right:8px}
+.lab small{display:block;margin:2px 0 0 30px;color:var(--muted);font-size:9.5px;letter-spacing:.12em}
+.lab.soft{color:var(--muted)}
+
+@media (max-width:899px){
+  .nav nav a:not(.btn){display:none}
+  .hd{top:88px}
+  .hd .intro,.legendlist{display:none}
+  .tb{bottom:3vh}
+  .tb h3{font-size:34px;padding-top:10px}
+  .tb .copy,.rows li:nth-child(3){display:none}
+  .pp{bottom:calc(3vh + 66px);padding:10px 12px}
+  .pp h3{font-size:32px}
+  .pp dl{grid-template-columns:minmax(0,1fr);gap:6px}
+  .pp dd{font-size:13px}
+  .rail li span{display:none}
+  .rail li.on span{display:block}
+  .lab{display:none}
+  .cap{display:none}
+}
+@media (min-width:900px) and (max-height:860px){.hd .intro{display:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+
+<div class="ruler" aria-hidden="true"><div class="rm" id="rm"><span class="mono" id="rml">Intro</span></div></div>
+<canvas id="gl" aria-hidden="true"></canvas>
+<div id="labels" aria-hidden="true"></div>
+<canvas id="fly" aria-hidden="true"></canvas>
+<div id="labels2" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="logo" href="#top" aria-label="Meda Technology"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><linearGradient id="meda-g" gradientUnits="userSpaceOnUse" x1="0" y1="6" x2="0" y2="94"><stop offset="0" stop-color="#5B36C9"/><stop offset=".5" stop-color="#4873CC"/><stop offset="1" stop-color="#53C3DD"/></linearGradient></defs><g transform="rotate(42 50 50)"><path d="M22 22H40C33 6 69 6 62 22H78V40C94 33 94 67 78 60V78H22V62L31 52L22 42Z" fill="none" stroke="url(#meda-g)" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/></g></svg><span class="lt"><b>MEDA</b><i>TECHNOLOGY</i></span></a>
+  <nav aria-label="Main">
+    <a href="#services">Services</a>
+    <a href="#process">Process</a>
+    <a href="#products">Products</a>
+    <a href="#about">About</a>
+    <a class="btn" href="#contact">Start a project</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="top">
+    <p class="mono rv">Software house — est. 2016</p>
+    <h1 class="display cond">
+      <span class="sr">Custom software development that fits your business.</span>
+      <span class="ln" aria-hidden="true">MAKE IT</span><span class="ln acc" aria-hidden="true">FIT.</span>
+    </h1>
+    <p class="lead rv">We make complicated things simple, then build the system around you, not the other way around. Web, mobile, data and infrastructure from one team.</p>
+    <div class="cta rv">
+      <a class="btn" href="#contact">Start a project <span aria-hidden="true">→</span></a>
+      <a class="btn ghost" href="#process">See how we work</a>
+    </div>
+    <ul class="dim rv" aria-label="At a glance">
+      <li>Est. 2016</li><li>Web · Mobile · Data · AI</li><li>3 ready-made products</li>
+    </ul>
+  </section>
+
+  <section class="pin" id="services" aria-label="Services">
+    <div class="stick">
+      <div class="hd">
+        <p class="mono">Services</p>
+        <h2 class="t cond">One team for every layer</h2>
+        <p class="intro">From the interface people use to the servers that keep it running, we design and build the whole system. No hand-offs between vendors.</p>
+      </div>
+      <div class="tb" id="svp">
+        <div class="tb-h"><span class="mono" id="svp-code"></span><span class="mono" id="svp-stack"></span></div>
+        <h3 class="cond" id="svp-title"></h3>
+        <p class="head" id="svp-head"></p>
+        <p class="copy" id="svp-copy"></p>
+        <ul class="rows" id="svp-built"></ul>
+      </div>
+      <ol class="legendlist" id="svl"></ol>
+      <ul class="sr" id="svp-all"></ul>
+    </div>
+  </section>
+
+  <section class="pin" id="process" aria-label="Process">
+    <div class="stick">
+      <div class="hd">
+        <p class="mono">Process</p>
+        <h2 class="t cond">From brief to built</h2>
+        <p class="intro">A clear, visible journey from first conversation to production. You always know what is happening and what we need from you.</p>
+      </div>
+      <div class="pp" id="prp">
+        <div><p class="mono" id="prp-code"></p><h3 class="cond" id="prp-title"></h3></div>
+        <dl>
+          <div><dt>We do</dt><dd id="prp-do"></dd></div>
+          <div><dt>You receive</dt><dd id="prp-get"></dd></div>
+          <div><dt>Your part</dt><dd id="prp-role"></dd></div>
+        </dl>
+      </div>
+      <ol class="rail" id="prp-rail"></ol>
+      <ul class="sr" id="prp-all"></ul>
+    </div>
+  </section>
+
+  <section class="pin" id="products" aria-label="Products">
+    <div class="stick">
+      <div class="hd">
+        <p class="mono">Products</p>
+        <h2 class="t cond">Built once. Working everywhere.</h2>
+        <p class="intro">We turn recurring business problems into products you can start using now.</p>
+      </div>
+      <div class="tb" id="pdp">
+        <div class="tb-h"><span class="mono" id="pdp-code"></span><span class="mono" id="pdp-tag"></span></div>
+        <h3 class="cond" id="pdp-title"></h3>
+        <p class="head" id="pdp-line"></p>
+        <p class="copy" id="pdp-desc"></p>
+        <p class="mono cov" id="pdp-cov"></p>
+        <div class="foot"><span class="mono" id="pdp-for"></span><a class="btn" id="pdp-cta" href="#contact">Request a demo</a></div>
+      </div>
+      <p class="mono cap">Interface illustrations</p>
+      <ul class="sr" id="pdp-all"></ul>
+    </div>
+  </section>
+
+  <section class="flat" id="proof">
+    <p class="mono rv">Proof</p>
+    <h2 class="t cond big rv" style="max-width:14ch">Proof, not promises</h2>
+    <p class="note rv">Case studies, client names and results appear here once they are cleared for publication. Each one follows the same plain format.</p>
+    <div class="slots" id="proof-slots"></div>
+  </section>
+
+  <section class="flat" id="about">
+    <div class="two">
+      <div>
+        <p class="mono rv">About</p>
+        <h2 class="t cond rv">Why Meda</h2>
+        <p class="statement rv">Your system should feel like clothes or shoes that fit perfectly, not something your team has to force itself into.</p>
+        <p class="note rv">Meda Technology is a software house founded in 2016.</p>
+      </div>
+      <ul class="pillars rv">
+        <li><h3 class="cond">One team, every layer</h3><p>Frontend, backend, data and infrastructure under one roof, so nothing gets lost between vendors.</p></li>
+        <li><h3 class="cond">Visible progress</h3><p>You see working builds throughout, not a surprise at the end.</p></li>
+        <li><h3 class="cond">Products of our own</h3><p>ShiftGenius, Loyalty+ and Meda Billing show how we build.</p></li>
+        <li><h3 class="cond">Plain language</h3><p>We explain trade-offs without jargon.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="flat" id="faq">
+    <div class="two">
+      <div>
+        <p class="mono rv">Questions</p>
+        <h2 class="t cond rv">Good to know</h2>
+      </div>
+      <div class="faq rv">
+        <details><summary>What does a project include?</summary><p>Requirements, infrastructure, design and scope, coding, user acceptance testing and production. You see each stage, from the first conversation to launch.</p></details>
+        <details><summary>How much does custom software cost?</summary><p>It depends on scope: users and roles, features, integrations, platforms and data migration. After requirements we agree the scope and a quote.</p></details>
+        <details><summary>How long does it take?</summary><p>It depends on scope. The timeline is agreed at the design and scope stage, before coding begins.</p></details>
+        <details><summary>Can you connect to our existing systems?</summary><p>Yes, through APIs or data import where the existing system allows it. We check this during requirements.</p></details>
+        <details><summary>Which technologies do you use?</summary><p>Go, JavaScript and TypeScript, Next.js, PostgreSQL, SQLite, C# and Flutter. We choose by fit, not fashion.</p></details>
+        <details><summary>Custom software or a ready-made product?</summary><p>If one of our products already covers your need, we will say so. If not, we build it custom.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="flat clear" id="contact">
+    <div style="max-width:560px">
+      <p class="mono rv">Start a conversation</p>
+      <h2 class="t cond big rv" style="max-width:none">What needs to work better?</h2>
+      <p class="note rv">Tell us about the system you want to build, improve or bring to life.</p>
+      <form class="cform rv" id="cform" novalidate>
+        <div class="row">
+          <label><span class="mono">Name</span><input id="f-name" name="name" autocomplete="name"></label>
+          <label><span class="mono">Email</span><input id="f-email" name="email" type="email" autocomplete="email"></label>
+        </div>
+        <label><span class="mono">Company</span><input id="f-co" name="company" autocomplete="organization"></label>
+        <label><span class="mono">What do you need?</span>
+          <select id="f-need" name="need">
+            <option>New custom system</option><option>Improve an existing system</option><option>ShiftGenius</option><option>Loyalty+</option><option>Meda Billing</option><option>Not sure yet</option>
+          </select></label>
+        <label><span class="mono">Message</span><textarea id="f-msg" name="message" rows="4" placeholder="Describe the problem: what is slow, manual or broken today?"></textarea></label>
+        <div class="acts">
+          <button class="btn" type="submit" id="f-copy">Copy brief</button>
+          <a class="btn ghost" id="f-mail" href="mailto:hello@meda.technology">Open in email app</a>
+        </div>
+        <p class="status" id="f-status" role="status"></p>
+      </form>
+      <p class="mono">Send it to</p>
+      <a class="email" href="mailto:hello@meda.technology" id="email">hello@meda.technology</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <a class="logo" href="#top" aria-label="Meda Technology"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><g transform="rotate(42 50 50)"><path d="M22 22H40C33 6 69 6 62 22H78V40C94 33 94 67 78 60V78H22V62L31 52L22 42Z" fill="none" stroke="url(#meda-g)" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/></g></svg><span class="lt"><b>MEDA</b><i>TECHNOLOGY</i></span></a>
+  <p class="mono">Software for what comes next.</p>
+  <ul>
+    <li><a href="#services">Services</a></li><li><a href="#products">Products</a></li><li><a href="#about">About</a></li><li><a href="#contact">Contact</a></li>
+  </ul>
+  <p class="mono">© 2026 Meda Technology</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@4.5.0/dist/bundles/anime.umd.min.js"></script>
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }</script>
+<script type="module">
+import * as THREE from 'three';
+
+/* ---------- content ---------- */
+const LAYERS = [
+  { code: 'Front-end', head: 'Interfaces people enjoy using', copy: 'Web apps, dashboards and mobile apps that feel considered, fast and unmistakably yours.', built: ['Web applications', 'Dashboards and portals', 'Mobile apps from one Flutter codebase'], stack: 'Next.js · TypeScript · Flutter' },
+  { code: 'Backend', head: 'Logic that makes products work', copy: 'APIs, services, authentication and business rules that turn complexity into clarity.', built: ['APIs and integrations', 'Users, roles and permissions', 'Business rules and workflows'], stack: 'Go · C# · TypeScript' },
+  { code: 'Database', head: 'Information with direction', copy: 'Data structured for decisions, with reporting that makes every number visible.', built: ['Database design', 'Reporting systems', 'PostgreSQL and SQLite'], stack: 'PostgreSQL · SQLite' },
+  { code: 'Infrastructure', head: 'Foundations that hold the whole system', copy: 'Cloud-ready environments, deployment and monitoring designed for resilience.', built: ['Cloud-ready foundations', 'Deployment pipelines', 'Observability and monitoring'], stack: 'Cloud' }
+];
+const IFACE = ['HTTPS · JSON', 'SQL', 'Storage · Network'];
+const STAGES = [
+  { title: 'Requirements', doo: 'We interview stakeholders, map users and workflows, and separate what must exist on day one from what can wait.', get: 'Requirements document and prioritized scope', role: 'Explain workflows, share examples, connect us to users' },
+  { title: 'Infrastructure', doo: 'We set up development and staging environments, repositories, the database and the deployment pipeline.', get: 'A working environment where progress is visible', role: 'Approve hosting and accounts' },
+  { title: 'Design & scope', doo: 'We turn requirements into mockups and a PRD, then agree scope, timeline and contract.', get: 'Mockups, PRD, quote and contract', role: 'Review and sign off' },
+  { title: 'Coding', doo: 'We build backend, frontend and mobile in iterations.', get: 'Working builds you can try during the build', role: 'Give feedback on each build' },
+  { title: 'UAT', doo: 'Real users test on staging; we fix and refine.', get: 'Test checklist and a resolved issue list', role: 'Test with real users and confirm acceptance' },
+  { title: 'Production', doo: 'We release, migrate data and hand over.', get: 'A live system and documentation', role: 'Approve go-live' }
+];
+const PRODUCTS = [
+  { name: 'ShiftGenius', tag: 'HRIS', line: 'People, in sync.', desc: 'Workforce management that brings scheduling, attendance and payroll into one clear view.', cov: 'Scheduling · Attendance · Payroll', who: 'HR teams and businesses with shift-based staff' },
+  { name: 'Loyalty+', tag: 'Loyalty management', line: 'Make every visit count.', desc: 'Loyalty management for points, rewards, campaigns and customers who keep coming back.', cov: 'Points · Rewards · Campaigns · Customers', who: 'Retail, F&B and service businesses' },
+  { name: 'Meda Billing', tag: 'School billing', line: 'Clarity for every class.', desc: 'School billing and operations, designed to make education administration feel lighter.', cov: 'Billing · School operations', who: 'Schools and foundation administrators' }
+];
+/* Fill with real, cleared material. Shape: { industry, built, context, did: [..], result } */
+const PROOF = { cases: [] };
+
+/* ---------- helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const damp = (a, b, l, dt) => lerp(a, b, 1 - Math.exp(-l * dt));
+const smooth = (a, b, v) => { const t = clamp((v - a) / (b - a)); return t * t * (3 - 2 * t); };
+const ease3 = t => 1 - Math.pow(1 - t, 3);
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const A = window.anime || null;
+
+function reveal(els, opts = {}) {
+  const list = [...els].filter(Boolean);
+  if (!list.length) return;
+  if (!A || reduce) { list.forEach(e => { e.style.opacity = 1; e.style.transform = 'none'; }); return; }
+  A.animate(list, { opacity: [0, 1], translateY: [22, 0], duration: 900, ease: 'outExpo', delay: A.stagger(70), ...opts });
+}
+
+/* ---------- hero type ---------- */
+$$('.display .ln').forEach(ln => {
+  const txt = ln.textContent; ln.textContent = '';
+  for (const ch of txt) { const s = document.createElement('span'); s.className = 'c'; s.textContent = ch === ' ' ? ' ' : ch; ln.appendChild(s); }
+});
+if (A && !reduce) {
+  A.animate('.display .c', { translateY: ['118%', '0%'], duration: 1000, ease: 'outExpo', delay: A.stagger(45, { start: 150 }) });
+  A.animate($$('.hero .rv'), { opacity: [0, 1], translateY: [18, 0], duration: 900, ease: 'outExpo', delay: A.stagger(90, { start: 600 }) });
+} else { $$('.hero .rv').forEach(e => { e.style.opacity = 1; }); }
+
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { reveal([e.target]); io.unobserve(e.target); }
+}), { threshold: .12 });
+$$('.rv').filter(el => !el.closest('.hero')).forEach(el => io.observe(el));
+
+/* ---------- panels ---------- */
+const swap = (nodes) => { if (A && !reduce) A.animate(nodes.filter(Boolean), { opacity: [0, 1], translateY: [10, 0], duration: 520, ease: 'outExpo', delay: A.stagger(40) }); };
+
+const svp = { code: $('#svp-code'), stack: $('#svp-stack'), title: $('#svp-title'), head: $('#svp-head'), copy: $('#svp-copy'), built: $('#svp-built') };
+$('#svp-all').innerHTML = LAYERS.map(L => `<li>${L.code}: ${L.head}. ${L.copy} ${L.built.join(', ')}. ${L.stack}</li>`).join('');
+$('#svl').innerHTML = LAYERS.map(L => `<li>${L.code}</li>`).join('');
+const svl = $$('#svl li');
+let svCur = -1;
+function setSvc(i) {
+  if (i === svCur) return; svCur = i;
+  const L = LAYERS[i];
+  svp.code.textContent = `Layer ${i + 1} / ${LAYERS.length}`; svp.stack.textContent = L.stack;
+  svp.title.textContent = L.code; svp.head.textContent = L.head; svp.copy.textContent = L.copy;
+  svp.built.innerHTML = L.built.map(b => `<li>${b}</li>`).join('');
+  svl.forEach((li, j) => li.classList.toggle('on', j === i));
+  swap([svp.title, svp.head, svp.copy, ...$$('li', svp.built)]);
+}
+
+const prp = { code: $('#prp-code'), title: $('#prp-title'), doo: $('#prp-do'), get: $('#prp-get'), role: $('#prp-role') };
+$('#prp-all').innerHTML = STAGES.map(s => `<li>${s.title}. We do: ${s.doo} You receive: ${s.get}. Your part: ${s.role}.</li>`).join('');
+$('#prp-rail').innerHTML = STAGES.map((s, i) => `<li><b>0${i + 1}</b><span>${s.title}</span></li>`).join('');
+const railLi = $$('#prp-rail li'), rail = $('#prp-rail');
+let prCur = -1;
+function setStage(i) {
+  if (i === prCur) return; prCur = i;
+  const s = STAGES[i];
+  prp.code.textContent = `Stage ${i + 1} / ${STAGES.length}`; prp.title.textContent = s.title;
+  prp.doo.textContent = s.doo; prp.get.textContent = s.get; prp.role.textContent = s.role;
+  railLi.forEach((li, j) => li.classList.toggle('on', j === i));
+  swap([prp.title, prp.doo, prp.get, prp.role]);
+}
+
+const pdp = { code: $('#pdp-code'), tag: $('#pdp-tag'), title: $('#pdp-title'), line: $('#pdp-line'), desc: $('#pdp-desc'), cov: $('#pdp-cov'), who: $('#pdp-for'), cta: $('#pdp-cta') };
+$('#pdp-all').innerHTML = PRODUCTS.map(p => `<li>${p.name} (${p.tag}). ${p.line} ${p.desc} For ${p.who}.</li>`).join('');
+let pdCur = -1;
+function setProd(i) {
+  if (i === pdCur) return; pdCur = i;
+  const p = PRODUCTS[i];
+  pdp.code.textContent = `Product ${i + 1} / ${PRODUCTS.length}`; pdp.tag.textContent = p.tag;
+  pdp.title.textContent = p.name; pdp.line.textContent = p.line; pdp.desc.textContent = p.desc;
+  pdp.cov.textContent = p.cov; pdp.who.textContent = 'For ' + p.who;
+  pdp.cta.href = 'mailto:hello@meda.technology?subject=' + encodeURIComponent('Demo request: ' + p.name);
+  swap([pdp.title, pdp.line, pdp.desc, pdp.cov]);
+}
+
+/* proof */
+(function () {
+  const host = $('#proof-slots');
+  if (PROOF.cases && PROOF.cases.length) {
+    host.innerHTML = PROOF.cases.map(c => `<article class="slot" style="border-style:solid"><span class="mono">${c.industry} · ${c.built}</span><p><b>Context</b><br>${c.context}</p><p><b>What we built</b><br>${(c.did || []).join(' · ')}</p><p><b>Result</b><br>${c.result}</p></article>`).join('');
+    return;
+  }
+  host.innerHTML = [1, 2, 3].map(n => `<div class="slot"><span class="mono">Case study ${n}</span><span class="mono" style="color:var(--accent-text)">Context</span><i></i><i></i><span class="mono" style="color:var(--accent-text)">What we built</span><i></i><i></i><span class="mono" style="color:var(--accent-text)">Result</span><i></i></div>`).join('');
+})();
+
+/* contact */
+const fStatus = $('#f-status'), fMail = $('#f-mail');
+function brief() {
+  const g = id => ($('#' + id).value || '').trim();
+  return `Hello Meda team,\n\nNeed: ${g('f-need')}\nCompany: ${g('f-co') || '-'}\n\n${g('f-msg') || '(describe the problem)'}\n\n${g('f-name') || ''}\n${g('f-email') || ''}`.trim();
+}
+function syncMail() { fMail.href = 'mailto:hello@meda.technology?subject=' + encodeURIComponent('Project inquiry') + '&body=' + encodeURIComponent(brief()); }
+$$('#cform input,#cform select,#cform textarea').forEach(el => el.addEventListener('input', syncMail)); syncMail();
+$('#cform').addEventListener('submit', ev => {
+  ev.preventDefault();
+  const text = brief();
+  const done = () => { fStatus.textContent = 'Copied. Paste it into an email to hello@meda.technology.'; };
+  const fail = () => { const ta = $('#f-msg'); ta.value = text; ta.select(); fStatus.textContent = 'Select and copy the text above, then email it to hello@meda.technology.'; };
+  try { navigator.clipboard && navigator.clipboard.writeText ? navigator.clipboard.writeText(text).then(done, fail) : fail(); } catch (e) { fail(); }
+});
+
+/* ---------- scroll model ---------- */
+const R = { svc: $('#services'), flow: $('#process'), prod: $('#products'), contact: $('#contact') };
+const P = { svc: 0, flow: 0, prod: 0, svcIn: false, hero: 0 };
+const SECS = [['top', 'Intro'], ['services', 'Services'], ['process', 'Process'], ['products', 'Products'], ['proof', 'Proof'], ['about', 'About'], ['faq', 'Questions'], ['contact', 'Contact']].map(([id, n]) => ({ el: $('#' + id), n }));
+const rm = $('#rm'), rml = $('#rml');
+function prog(el) { const r = el.getBoundingClientRect(); return clamp(-r.top / (r.height - innerHeight)); }
+function updateScroll() {
+  P.svc = prog(R.svc); P.flow = prog(R.flow); P.prod = prog(R.prod);
+  P.hero = clamp(scrollY / innerHeight);
+  const rs = R.svc.getBoundingClientRect();
+  P.svcIn = rs.top <= innerHeight * .5 && rs.bottom >= innerHeight * .5;
+  const u = clamp((P.svc - .1) / .9) * LAYERS.length;
+  P.svcIdx = Math.min(LAYERS.length - 1, Math.floor(u));
+  setSvc(P.svcIdx);
+  setStage(Math.min(5, Math.floor(P.flow * 6)));
+  rail.style.setProperty('--p', (P.flow * 100).toFixed(1) + '%');
+  const seg = P.prod * 2, pi = Math.min(1, Math.floor(seg)), pf = seg - pi;
+  P.a = P.prod >= 1 ? 2 : pi + smooth(.3, .7, pf);
+  setProd(Math.round(P.a));
+  const frac = clamp(scrollY / (document.documentElement.scrollHeight - innerHeight));
+  rm.style.top = (frac * (innerHeight - 2)) + 'px';
+  let name = SECS[0].n; for (const s of SECS) if (s.el.getBoundingClientRect().top <= innerHeight * .5) name = s.n;
+  if (rml.textContent !== name) rml.textContent = name;
+}
+function sceneAt() {
+  const cy = innerHeight * .5;
+  const rf = R.flow.getBoundingClientRect(), rp = R.prod.getBoundingClientRect(), rc = R.contact.getBoundingClientRect();
+  if (rf.top <= cy && rf.bottom >= cy) return 'flow';
+  if (rp.top <= cy && rp.bottom >= cy) return 'prod';
+  if (rc.top <= innerHeight) return 'close';
+  if (rp.bottom < cy) return 'none';
+  return 'arch';
+}
+
+/* ---------- theme ---------- */
+const rootEl = document.documentElement, cs = getComputedStyle(rootEl);
+const T = {};
+function readTheme() { const g = n => cs.getPropertyValue(n).trim(); T.solid = g('--solid'); T.edge = g('--fg'); T.soft = g('--soft'); T.accent = g('--accent'); }
+readTheme();
+
+/* ---------- three.js ---------- */
+const S = { intro: reduce ? 1 : 0, close: 1 };
+let renderer = null;
+try { renderer = new THREE.WebGLRenderer({ canvas: $('#gl'), antialias: true, alpha: true }); }
+catch (e) { console.warn('WebGL unavailable', e); const c = $('#gl'); if (c) c.remove(); }
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(30, 1, .1, 120);
+scene.add(new THREE.HemisphereLight(0xffffff, 0x9aa7b4, 1.9));
+const sun = new THREE.DirectionalLight(0xffffff, 2.6); sun.position.set(5, 9, 6); scene.add(sun);
+
+const reg = [], labels = [];
+const labelRoot = $('#labels');
+function reg1(m, role, base, g) {
+  const it = { m, role, base, g, k: 1, mul: 1, c: new THREE.Color(), dyn: false };
+  if (role !== 'none') { it.c.set(T[role] || T.edge); m.color.copy(it.c); }
+  reg.push(it); return it;
+}
+function part(parent, geo, pos, g, o = {}) {
+  const grp = new THREE.Group(); grp.position.set(...pos); if (o.rot) grp.rotation.set(...o.rot); parent.add(grp);
+  const role = o.role || 'solid', erole = o.edge || 'edge';
+  const sm = new THREE.MeshStandardMaterial({ color: T[role], roughness: .92, metalness: 0, transparent: true, opacity: 1, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 });
+  grp.add(new THREE.Mesh(geo, sm));
+  const lm = new THREE.LineBasicMaterial({ color: T[erole], transparent: true, opacity: .9 });
+  grp.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo, 30), lm));
+  const a = reg1(sm, role, 1, g), b = reg1(lm, erole, o.eo ?? .9, g);
+  return { grp, items: [a, b], solid: a, edge: b };
+}
+function strip(parent, pts, role, base, g) {
+  const v = [];
+  for (let i = 0; i < pts.length - 1; i++) v.push(...pts[i], ...pts[i + 1]);
+  const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(v, 3));
+  const m = new THREE.LineBasicMaterial({ color: T[role], transparent: true, opacity: base });
+  const o = new THREE.LineSegments(geo, m); parent.add(o);
+  const it = reg1(m, role, base, g); it.obj = o; return it;
+}
+function addLabel(text, sub, anchor, g, cls = '') {
+  const el = document.createElement('div'); el.className = 'lab ' + cls;
+  el.innerHTML = `${text}${sub ? `<small>${sub}</small>` : ''}`;
+  labelRoot.appendChild(el);
+  const l = { el, anchor, g, k: 0 }; labels.push(l); return l;
+}
+
+/* soft contact shadow */
+const shTex = (() => {
+  const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
+  const gr = x.createRadialGradient(128, 128, 0, 128, 128, 128); gr.addColorStop(0, 'rgba(0,0,0,.55)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
+  x.fillStyle = gr; x.fillRect(0, 0, 256, 256); const t = new THREE.CanvasTexture(c); return t;
+})();
+
+/* Scene A: the stack */
+const SLAB = { w: 3.8, h: .22, d: 2.6 };
+const archG = new THREE.Group(), stack = new THREE.Group(); archG.add(stack); scene.add(archG);
+const shadow = new THREE.Mesh(new THREE.PlaneGeometry(10, 7), new THREE.MeshBasicMaterial({ map: shTex, transparent: true, depthWrite: false }));
+shadow.rotation.x = -Math.PI / 2; archG.add(shadow);
+const shadowIt = reg1(shadow.material, 'none', .5, 'arch');
+
+function buildFront(g, items) {
+  const y0 = SLAB.h / 2;
+  items.push(...part(g, new THREE.BoxGeometry(.9, .05, .55), [0, y0 + .025, -.5], 'arch').items);
+  items.push(...part(g, new THREE.BoxGeometry(.14, .45, .1), [0, y0 + .05 + .225, -.5], 'arch').items);
+  const mon = part(g, new THREE.BoxGeometry(2.4, 1.45, .07), [0, y0 + .5 + .72, -.5], 'arch', { rot: [-.06, 0, 0] });
+  items.push(...mon.items);
+  [[[-1.0, .5, .045], [1.0, .5, .045]], [[-1.0, .2, .045], [-.15, .2, .045]], [[-1.0, -.05, .045], [-.45, -.05, .045]]].forEach(p => items.push(strip(mon.grp, p, 'soft', .9, 'arch')));
+  items.push(strip(mon.grp, [[.0, -.5, .045], [.3, -.2, .045], [.55, -.4, .045], [.9, .05, .045]], 'accent', 1, 'arch'));
+  items.push(...part(g, new THREE.BoxGeometry(.55, 1.0, .05), [1.45, y0 + .5 + .03, .65], 'arch', { rot: [0, -.4, 0] }).items);
+}
+function buildBack(g, items) {
+  const y = SLAB.h / 2 + .21;
+  [-1.0, 0, 1.0].forEach(x => [-.6, .6].forEach(z => items.push(...part(g, new THREE.BoxGeometry(.5, .42, .5), [x, y, z], 'arch').items)));
+  items.push(strip(g, [[0, y, -.6], [0, y, .6]], 'accent', .9, 'arch'));
+  items.push(strip(g, [[-1, y, 0], [1, y, 0]], 'accent', .9, 'arch'));
+}
+function buildDB(g, items) {
+  const r = .82, h = .14, gap = .04;
+  for (let i = 0; i < 3; i++) items.push(...part(g, new THREE.CylinderGeometry(r, r, h, 40), [-.3, SLAB.h / 2 + h / 2 + i * (h + gap), 0], 'arch').items);
+  items.push(...part(g, new THREE.CylinderGeometry(.4, .4, .14, 32), [1.2, SLAB.h / 2 + .07, .55], 'arch').items);
+}
+let ledTick = null;
+function buildInfra(g, items) {
+  const leds = [];
+  [-.8, 0, .8].forEach(z => {
+    items.push(...part(g, new THREE.BoxGeometry(2.9, .16, .55), [-.2, SLAB.h / 2 + .08, z], 'arch').items);
+    const l = part(g, new THREE.BoxGeometry(.08, .08, .03), [1.05, SLAB.h / 2 + .09, z + .29], 'arch', { role: 'accent', edge: 'accent' });
+    items.push(...l.items); leds.push(l);
+  });
+  ledTick = t => leds.forEach((l, i) => l.items.forEach(it => { it.base = (Math.sin(t * 3 + i * 1.9) > 0 ? 1 : .25); }));
+}
+const layers = [buildFront, buildBack, buildDB, buildInfra].map((b, i) => {
+  const g = new THREE.Group(); stack.add(g);
+  const items = [...part(g, new THREE.BoxGeometry(SLAB.w, SLAB.h, SLAB.d), [0, 0, 0], 'arch').items];
+  [[-1.65, -1.05], [1.65, -1.05], [-1.65, 1.05], [1.65, 1.05]].forEach(([x, z]) =>
+    items.push(...part(g, new THREE.CylinderGeometry(.08, .08, .1, 16), [x, SLAB.h / 2 + .05, z], 'arch', { role: 'accent', edge: 'accent', eo: .7 }).items));
+  b(g, items);
+  items.forEach(it => { it.dyn = it.role === 'edge'; });
+  const anchor = new THREE.Object3D(); anchor.position.set(SLAB.w / 2, .25, SLAB.d / 2); g.add(anchor);
+  return { g, items, hot: 0, k: 1, slide: 0, intro: 0, label: addLabel(LAYERS[i].code, `Layer ${i + 1}`, anchor, 'arch') };
+});
+const ifaces = IFACE.map((txt, i) => {
+  const g = new THREE.Group(); stack.add(g);
+  const it = strip(g, [[0, -.5, 0], [0, .5, 0]], 'soft', .9, 'arch');
+  const t1 = strip(g, [[-.14, -.5, 0], [.14, -.5, 0]], 'soft', .9, 'arch'), t2 = strip(g, [[-.14, .5, 0], [.14, .5, 0]], 'soft', .9, 'arch');
+  const anchor = new THREE.Object3D(); anchor.position.set(.2, 0, 0); g.add(anchor);
+  return { g, items: [it, t1, t2], label: addLabel(txt, '', anchor, 'arch', 'soft') };
+});
+const clearA = new THREE.Object3D(); clearA.position.set(SLAB.w / 2 + .5, .8, SLAB.d / 2 + .3); stack.add(clearA);
+const clearLabel = addLabel('Clearance 0.00', '', clearA, 'arch', 'soft');
+
+/* ===== Paper plane: "From brief to built" =====
+   A real fold simulator, not a morph. The sheet is cut along every crease into convex pieces;
+   each fold swings the pieces on one side of the crease around the crease axis. Scroll scrubs the fold
+   angles, so the sequence plays forward and backward. Once the last fold is made, the same plane is flown
+   along a path that scroll scrubs across the rest of the page, in its own canvas above the content. */
+const plane = (() => {
+  const L = 3.96, W = 2.8, T = .014, WC = .55, HL = L / 2, HW = W / 2;     // sheet (A-series ratio), layer thickness, wing crease
+  const DIH = 78 * Math.PI / 180;                                         // wing angle once settled: tips lifted 12°
+  const FOVY = 30, CAMD = 14, HTAN = Math.tan(FOVY * Math.PI / 360);
+  const COL = { front: '#F8F9FF', back: '#FFFFFF', ink: '#3A1830', pink: '#CF2E65', glow: '#E8317A' };
+  const S2 = Math.SQRT1_2, c22 = Math.cos(Math.PI / 8), s22 = Math.sin(Math.PI / 8), t22 = Math.tan(Math.PI / 8);
+
+  const flyEl = $('#fly'), lab2 = $('#labels2');
+  let fr = null;
+  try { fr = new THREE.WebGLRenderer({ canvas: flyEl, antialias: true, alpha: true }); }
+  catch (e) { console.warn('WebGL unavailable (paper plane)', e); flyEl.remove(); }
+
+  const sc = new THREE.Scene();
+  const cam = new THREE.PerspectiveCamera(FOVY, 1, .1, 80); cam.position.set(0, 0, CAMD);
+  sc.add(new THREE.HemisphereLight(0xffffff, 0xc2cbd4, 1.55));
+  const sun = new THREE.DirectionalLight(0xffffff, 1.5); sun.position.set(3.5, 6, 7); sc.add(sun);
+
+  const ease = x => x * x * (3 - 2 * x);
+  const win = (v, a, b) => clamp((v - a) / (b - a));
+
+  /* ---------- the printed brief (front face) ---------- */
+  const CW = 1024, CH = Math.round(CW * W / L);
+  const cv = document.createElement('canvas'); cv.width = CW; cv.height = CH;
+  const paperTex = new THREE.CanvasTexture(cv); paperTex.colorSpace = THREE.SRGBColorSpace; paperTex.anisotropy = 8;
+  const pxX = x => (x + HL) / L * CW, pxZ = z => (z + HW) / W * CH;
+  function paint() {
+    const g = cv.getContext('2d'), ink = a => `rgba(58,24,48,${a})`;
+    g.fillStyle = COL.front; g.fillRect(0, 0, CW, CH);
+    // fold guides, like the dashed lines on an origami diagram
+    g.save(); g.strokeStyle = ink(.26); g.lineWidth = 2; g.setLineDash([14, 10]);
+    const ln = (x0, z0, x1, z1) => { g.beginPath(); g.moveTo(pxX(x0), pxZ(z0)); g.lineTo(pxX(x1), pxZ(z1)); g.stroke(); };
+    ln(-HL, 0, HL, 0);
+    [1, -1].forEach(s => { ln(HL, 0, HL - HW, s * HW); ln(HL, 0, HL - HW / t22, s * HW); });
+    g.restore();
+    // letterhead
+    g.fillStyle = ink(.62); g.font = '500 20px "Martian Mono", ui-monospace, Menlo, monospace'; g.textBaseline = 'alphabetic';
+    g.fillText('MEDA TECHNOLOGY', 64, 74); g.textAlign = 'right'; g.fillText('PROJECT BRIEF', 646, 74); g.textAlign = 'left';
+    g.fillStyle = ink(.3); g.fillRect(64, 92, 582, 2);
+    g.save(); g.scale(.62, 1); g.fillStyle = COL.ink; g.font = '800 214px Archivo, "Arial Narrow", Arial, sans-serif'; g.fillText('BRIEF', 64 / .62, 292); g.restore();
+    g.fillStyle = COL.pink; g.fillRect(64, 314, 132, 12);
+    // body copy as text lines; orange squares are the agreed points
+    [[.96, 0], [.8, 0], [.88, 1], [.62, 0], [.94, 0], [.72, 1], [.84, 0], [.5, 0]].forEach(([w, hot], i) => {
+      const y = 372 + i * 34;
+      if (hot) { g.fillStyle = COL.pink; g.fillRect(64, y - 1, 14, 14); g.fillStyle = ink(.22); g.fillRect(96, y, 520 * w, 12); }
+      else { g.fillStyle = ink(.17); g.fillRect(64, y, 582 * w, 12); }
+    });
+    g.fillStyle = ink(.4); g.fillRect(64, CH - 78, 220, 2);
+    g.fillStyle = ink(.55); g.font = '500 16px "Martian Mono", ui-monospace, Menlo, monospace'; g.fillText('APPROVED', 64, CH - 52);
+    paperTex.needsUpdate = true;
+  }
+  paint();
+  try { document.fonts && document.fonts.load('800 40px Archivo').then(() => document.fonts.load('500 20px "Martian Mono"')).then(paint).catch(() => {}); } catch (e) {}
+
+  /* ---------- 2D isometries: [a,b,c,d,e,f]  x = a·u + c·v + e,  z = b·u + d·v + f ---------- */
+  const mApply = (M, u, v) => [M[0] * u + M[2] * v + M[4], M[1] * u + M[3] * v + M[5]];
+  const mMul = (A_, B_) => [A_[0] * B_[0] + A_[2] * B_[1], A_[1] * B_[0] + A_[3] * B_[1], A_[0] * B_[2] + A_[2] * B_[3], A_[1] * B_[2] + A_[3] * B_[3],
+    A_[0] * B_[4] + A_[2] * B_[5] + A_[4], A_[1] * B_[4] + A_[3] * B_[5] + A_[5]];
+  const mInv = M => { const [a, b, c, d, e, f] = M, det = a * d - b * c; return [d / det, -b / det, -c / det, a / det, (c * f - d * e) / det, (b * e - a * f) / det]; };
+  const mRefl = (nx, nz, k) => [1 - 2 * nx * nx, -2 * nx * nz, -2 * nx * nz, 1 - 2 * nz * nz, 2 * k * nx, 2 * k * nz];
+  const area = p => { let s = 0; for (let i = 0; i < p.length; i++) { const q = p[(i + 1) % p.length]; s += p[i][0] * q[1] - q[0] * p[i][1]; } return s / 2; };
+  /* every vertex carries the tag of the edge that leaves it: -1 = sheet boundary, n = crease made by fold n */
+  function clipPoly(poly, tags, nx, nz, k, sg, nt) {
+    const out = [], ot = [], n = poly.length;
+    for (let i = 0; i < n; i++) {
+      const a = poly[i], b = poly[(i + 1) % n];
+      const sa = sg * (nx * a[0] + nz * a[1] - k), sb = sg * (nx * b[0] + nz * b[1] - k);
+      if (sa >= -1e-9) { out.push(a); ot.push(Math.abs(sa) <= 1e-9 && sb < -1e-9 ? nt : tags[i]); }   // a vertex on the cut whose next edge leaves the kept side
+      if ((sa > 1e-9 && sb < -1e-9) || (sa < -1e-9 && sb > 1e-9)) {
+        const t = sa / (sa - sb); out.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]);
+        ot.push(sa > 0 ? nt : tags[i]);                                  // leaving: runs along the cut; entering: rest of the old edge
+      }
+    }
+    const keep = out.map((p, i) => { const q = out[(i + 1) % out.length]; return Math.hypot(p[0] - q[0], p[1] - q[1]) > 1e-6; });
+    return { pts: out.filter((_, i) => keep[i]), tags: ot.filter((_, i) => keep[i]) };
+  }
+
+  /* ---------- fold simulator ---------- */
+  let pieces = [];
+  const folds = [];
+  function mk(poly, tags, half, M, y, hist) { return { orig: poly, tags, M: M || [1, 0, 0, 1, 0, 0], y: y || 0, half, folds: hist || [] }; }
+  pieces.push(mk([[-HL, 0], [-HL, HW], [HL, HW], [HL, 0]], [-1, -1, -1, 0], +1));   // the centre crease (fold 0) is the shared edge
+  pieces.push(mk([[-HL, -HW], [-HL, 0], [HL, 0], [HL, -HW]], [-1, 0, -1, -1], -1));
+
+  function addFold(s) {
+    const [nx, nz] = s.n, k = nx * s.p0[0] + nz * s.p0[1];
+    const idx = folds.length, next = [];
+    for (const pc of pieces) {                                          // cut every piece the crease crosses
+      const Wp = pc.orig.map(([u, v]) => mApply(pc.M, u, v));
+      const sv = Wp.map(([x, z]) => nx * x + nz * z - k);
+      if (sv.every(v => v >= -1e-6) || sv.every(v => v <= 1e-6)) { next.push(pc); continue; }
+      const inv = mInv(pc.M);
+      for (const sg of [1, -1]) {
+        const c = clipPoly(Wp, pc.tags, nx, nz, k, sg, idx);
+        if (c.pts.length >= 3 && Math.abs(area(c.pts)) > 1e-4) next.push(mk(c.pts.map(([x, z]) => mApply(inv, x, z)), c.tags, pc.half, pc.M, pc.y, pc.folds.slice()));
+      }
+    }
+    pieces = next;
+    const side = pc => { let cx = 0, cz = 0; pc.orig.forEach(([u, v]) => { const [x, z] = mApply(pc.M, u, v); cx += x; cz += z; }); return nx * cx / pc.orig.length + nz * cz / pc.orig.length - k; };
+    const mv = pieces.filter(pc => side(pc) > 0 && (!s.filter || s.filter(pc)));
+    const stay = pieces.filter(pc => !mv.includes(pc));
+    const hi = Math.max(...mv.map(p => p.y)), lo = Math.min(...mv.map(p => p.y));
+    let a;                                                              // height of the hinge: lands the flap just above what stays
+    if (typeof s.ay === 'number') a = s.ay; else if (s.ay === 'top') a = hi; else if (s.ay === 'bottom') a = lo;
+    else a = (Math.max(0, ...stay.map(p => p.y)) + T + hi) / 2;
+    const f = { P: new THREE.Vector3(s.p0[0], a, s.p0[1]), d: new THREE.Vector3(-nz, 0, nx), fn: s.fn, mat: new THREE.Matrix4(), seg: s.seg, stage: s.stage, win: s.t, a, th: 0 };
+    folds.push(f);
+    if (s.bake !== false) { const Rf = mRefl(nx, nz, k); mv.forEach(pc => { pc.M = mMul(Rf, pc.M); pc.y = 2 * a - pc.y; }); }
+    mv.forEach(pc => pc.folds.push(idx));
+  }
+
+  const tl = { crease: [.012, .152], corners: [.185, .315], edges: [.355, .48], half: [.525, .655], up: [.685, .765], wings: [.77, .85], settle: [.87, .93] };
+  const flat = (t, ang) => fp => ang * ease(win(fp, t[0], t[1]));
+  const wingFn = sg => fp => sg * (Math.PI / 2 * ease(win(fp, tl.wings[0], tl.wings[1])) - (Math.PI / 2 - DIH) * ease(win(fp, tl.settle[0], tl.settle[1])));
+  const nose = HL, tipX = HL - WC / t22;
+  addFold({ stage: 0, t: tl.crease, p0: [0, 0], n: [0, -1], bake: false, ay: 0, fn: fp => .94 * Math.PI * Math.sin(Math.PI * ease(win(fp, tl.crease[0], tl.crease[1]))), seg: [[-HL, 0], [HL, 0]] });
+  addFold({ stage: 1, t: tl.corners, p0: [HL, 0], n: [S2, S2], fn: flat(tl.corners, Math.PI), seg: [[HL, 0], [HL - HW, HW]] });
+  addFold({ stage: 1, t: tl.corners, p0: [HL, 0], n: [S2, -S2], fn: flat(tl.corners, Math.PI), seg: [[HL, 0], [HL - HW, -HW]] });
+  addFold({ stage: 2, t: tl.edges, p0: [HL, 0], n: [s22, c22], fn: flat(tl.edges, Math.PI), seg: [[HL, 0], [HL - HW / t22, HW]] });
+  addFold({ stage: 2, t: tl.edges, p0: [HL, 0], n: [s22, -c22], fn: flat(tl.edges, Math.PI), seg: [[HL, 0], [HL - HW / t22, -HW]] });
+  addFold({ stage: 3, t: tl.half, p0: [0, 0], n: [0, -1], fn: flat(tl.half, Math.PI), seg: [[-HL, 0], [HL, 0]] });
+  addFold({ stage: 4, t: tl.wings, p0: [0, WC], n: [0, 1], filter: p => p.half < 0, bake: false, ay: 'top', fn: wingFn(+1), seg: [[-HL, WC], [tipX, WC]] });
+  addFold({ stage: 4, t: tl.wings, p0: [0, WC], n: [0, 1], filter: p => p.half > 0, bake: false, ay: 'bottom', fn: wingFn(-1), seg: [[-HL, WC], [tipX, WC]] });
+
+  /* ---------- meshes ---------- */
+  const root = new THREE.Group(), foldG = new THREE.Group(); root.add(foldG); sc.add(root);
+  const mFront = new THREE.MeshStandardMaterial({ map: paperTex, roughness: .92, metalness: 0, side: THREE.FrontSide, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 });
+  const backCv = document.createElement('canvas'); backCv.width = 512; backCv.height = 8;
+  { const g = backCv.getContext('2d'), gr = g.createLinearGradient(0, 0, 512, 0); gr.addColorStop(0, '#5B36C9'); gr.addColorStop(.5, '#4873CC'); gr.addColorStop(1, '#53C3DD'); g.fillStyle = gr; g.fillRect(0, 0, 512, 8); }
+  const backTex = new THREE.CanvasTexture(backCv); backTex.colorSpace = THREE.SRGBColorSpace;
+  const mBack = new THREE.MeshStandardMaterial({ map: backTex, color: COL.back, roughness: .88, metalness: 0, side: THREE.BackSide, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 });
+  const EDGE_A = .62, mEdges = [new THREE.LineBasicMaterial({ color: COL.ink, transparent: true, opacity: EDGE_A })].concat(folds.map(() => new THREE.LineBasicMaterial({ color: COL.ink, transparent: true, opacity: 0 })));
+  pieces.forEach(pc => {
+    const n = pc.orig.length, pos = new Float32Array(n * 3), nor = new Float32Array(n * 3), uv = new Float32Array(n * 2), idx = [];
+    pc.orig.forEach(([u, v], i) => { pos.set([u, 0, v], i * 3); nor.set([0, 1, 0], i * 3); uv.set([(u + HL) / L, .5 - v / W], i * 2); });
+    for (let i = 1; i < n - 1; i++) idx.push(0, i, i + 1);
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3)); geo.setAttribute('normal', new THREE.BufferAttribute(nor, 3)); geo.setAttribute('uv', new THREE.BufferAttribute(uv, 2)); geo.setIndex(idx);
+    const g = new THREE.Group(); g.matrixAutoUpdate = false;
+    g.add(new THREE.Mesh(geo, mFront), new THREE.Mesh(geo, mBack));
+    const byTag = {};
+    pc.orig.forEach((a, i) => { const b = pc.orig[(i + 1) % n], t = pc.tags[i]; (byTag[t] = byTag[t] || []).push(a[0], 0, a[1], b[0], 0, b[1]); });
+    Object.entries(byTag).forEach(([t, v]) => { const eg = new THREE.BufferGeometry(); eg.setAttribute('position', new THREE.Float32BufferAttribute(v, 3)); g.add(new THREE.LineSegments(eg, mEdges[+t + 1])); });
+    foldG.add(g); pc.node = g;
+  });
+  // the hinge being folded glows orange while it moves, then stays as an ink crease
+  const ribbons = folds.map(f => {
+    const [p, q] = f.seg, dx = q[0] - p[0], dz = q[1] - p[1], len = Math.hypot(dx, dz), px = -dz / len * .02, pz = dx / len * .02, y = f.a + .004;
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array([p[0] + px, y, p[1] + pz, p[0] - px, y, p[1] - pz, q[0] - px, y, q[1] - pz, q[0] + px, y, q[1] + pz]), 3));
+    geo.setIndex([0, 1, 2, 0, 2, 3]);
+    const m = new THREE.MeshBasicMaterial({ color: COL.glow, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide });
+    const mesh = new THREE.Mesh(geo, m); mesh.renderOrder = 5; foldG.add(mesh); return m;
+  });
+
+  /* ---------- annotations: one per stage, pinned to the paper ---------- */
+  const LBL = ['Crease the centre line', 'Fold the corners in', 'Fold the edges to the centre', 'Fold the sheet in half', 'Turn it up, fold the wings down', 'Ready to fly'];
+  const ANCH = [[HL, 0, 0], [HL, 0, HW], [HL, 0, -HW], [HL, 0, 0], [HL, 0, 0], [HL, 0, 0]];
+  const labs = STAGES.map((s, i) => {
+    const el = document.createElement('div'); el.className = 'lab'; el.innerHTML = `0${i + 1} ${s.title}<small>${LBL[i]}</small>`; lab2.appendChild(el);
+    const anchor = new THREE.Object3D(); anchor.position.set(...ANCH[i]); foldG.add(anchor);
+    return { el, anchor, k: 0 };
+  });
+
+  /* ---------- orientations ---------- */
+  const _mb = new THREE.Matrix4();
+  function frameQ(f, u, out) {
+    const x = f.clone().normalize(), y = u.clone().sub(x.clone().multiplyScalar(u.dot(x))).normalize(), z = new THREE.Vector3().crossVectors(x, y);
+    return out.setFromRotationMatrix(_mb.makeBasis(x, y, z));
+  }
+  const qTable = frameQ(new THREE.Vector3(.97, .14, -.18), new THREE.Vector3(0, .7, .71), new THREE.Quaternion());
+  const qY180 = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI);
+
+  /* ---------- flight path ---------- */
+  const NS = 1400;
+  let halfH = 1, halfW = 1, rest = new THREE.Vector3(), baseScale = 1, wideNow = true;
+  let pPos = [], pQuat = [], qFlight0 = new THREE.Quaternion();
+  const UPREF = new THREE.Vector3(0, Math.cos(1.0), Math.sin(1.0));    // "up" leans toward the viewer so the paper top shows
+  function buildPath() {
+    halfH = CAMD * HTAN; halfW = halfH * cam.aspect; wideNow = innerWidth > 899;
+    const wp = (nx, ny, z = 0) => { const k = (CAMD - z) / CAMD; return new THREE.Vector3(nx * halfW * k, ny * halfH * k, z); };
+    baseScale = wideNow ? clamp(cam.aspect / 1.55, .62, 1) : .55;
+    rest = wp(wideNow ? .36 : 0, wideNow ? .14 : .2, 0);
+    const r = Math.min(.34 * halfH, .21 * halfW), psi = .7;
+    const ex = new THREE.Vector3(Math.cos(psi), 0, Math.sin(psi));
+    const loopStart = wp(-.5, -.6, 1);
+    const loop = [];
+    for (let i = 1; i <= 14; i++) { const th = i / 14 * Math.PI * 2; loop.push(loopStart.clone().addScaledVector(ex, r * Math.sin(th) + r * 1.1 * th / (Math.PI * 2)).add(new THREE.Vector3(0, r * (1 - Math.cos(th)), 0))); }
+    const pts = [rest, wp(.6, .3, -.4), wp(.8, .52, -.9), wp(.64, .78, -.3), wp(.22, .76, .6), wp(-.28, .68, 1.2), wp(-.72, .52, .6), wp(-.88, .14, -.4), wp(-.8, -.3, 0.2),
+      loopStart.clone().addScaledVector(ex, -r * .9), loopStart, ...loop,
+      wp(.12, -.62, .2), wp(.52, -.5, -.8), wp(.82, -.12, -1.6), wp(.66, .32, -1.2), wp(.22, .44, -.2), wp(-.14, .26, .9), wp(-.42, -.06, 1.6), wp(-.28, -.36, 1.2),
+      wp(.12, -.3, .2), wp(.44, .02, -1), wp(.58, .4, -2), wp(.82, .62, -2.8)];
+    const curve = new THREE.CatmullRomCurve3(pts, false, 'centripetal'); curve.arcLengthDivisions = 3000;
+    pPos = curve.getSpacedPoints(NS);
+    const tan = pPos.map((p, i) => pPos[Math.min(NS, i + 1)].clone().sub(pPos[Math.max(0, i - 1)]).normalize());
+    const ds = curve.getLength() / NS;
+    const up = tan.map((t, i) => {                                      // bank into the turn: up = reference + curvature
+      const k = tan[Math.min(NS, i + 1)].clone().sub(tan[Math.max(0, i - 1)]).divideScalar(2 * ds);
+      return UPREF.clone().addScaledVector(k, 3.2);
+    });
+    const sm = up.map((_, i) => { const a = new THREE.Vector3(); let c = 0; for (let j = Math.max(0, i - 10); j <= Math.min(NS, i + 10); j++) { a.add(up[j]); c++; } return a.divideScalar(c); });
+    let prev = null; pQuat = [];
+    for (let i = 0; i <= NS; i++) {
+      const q = frameQ(tan[i], sm[i], new THREE.Quaternion());
+      if (prev && q.dot(prev) < 0) { q.x *= -1; q.y *= -1; q.z *= -1; q.w *= -1; }
+      pQuat.push(q); prev = q;
+    }
+    qFlight0.copy(pQuat[0]);
+  }
+
+  /* dashed hairline trail behind the paper while it flies */
+  const TR = 160, trailGeo = new THREE.BufferGeometry();
+  trailGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(TR * 3), 3));
+  trailGeo.setAttribute('aA', new THREE.BufferAttribute(new Float32Array(TR), 1));
+  trailGeo.setAttribute('aD', new THREE.BufferAttribute(new Float32Array(TR), 1));
+  const trailMat = new THREE.ShaderMaterial({
+    transparent: true, depthWrite: false, uniforms: { uC: { value: new THREE.Color(COL.ink) } },
+    vertexShader: 'attribute float aA; attribute float aD; varying float vA; varying float vD; void main(){ vA=aA; vD=aD; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }',
+    fragmentShader: 'uniform vec3 uC; varying float vA; varying float vD; void main(){ if(mod(vD,.34)>.19) discard; gl_FragColor=vec4(uC,vA*.6); }'
+  });
+  const trail = new THREE.Line(trailGeo, trailMat); trail.frustumCulled = false; trail.visible = false; sc.add(trail);
+
+  /* ---------- per-frame ---------- */
+  let lastT = performance.now(), fpS = 0, sS = 0, dirS = 1, dirT = 1;
+  const V3 = new THREE.Vector3(), QA = new THREE.Quaternion(), QB = new THREE.Quaternion(), QI = new THREE.Quaternion(), M4 = new THREE.Matrix4(), M4b = new THREE.Matrix4(), M4c = new THREE.Matrix4();
+  const AXX = new THREE.Vector3(1, 0, 0);
+
+  function pose(s, outP, outQ) {                                       // position and orientation on the path at s in 0..1
+    const f = clamp(s) * NS, i = Math.min(NS - 1, Math.floor(f)), t = f - i;
+    outP.lerpVectors(pPos[i], pPos[i + 1], t); outQ.copy(pQuat[i]).slerp(pQuat[i + 1], t);
+  }
+
+  function frame(dbg) {
+    if (!fr) return;
+    const now = performance.now(), dt = Math.min((now - lastT) / 1000, .05); lastT = now;
+    const tt = now / 1000;
+    const rf = R.flow.getBoundingClientRect();
+    const enter = dbg && dbg.enter != null ? dbg.enter : smooth(.5, 0, rf.top / innerHeight);   // sheet slides in as the section pins
+    const show = enter > .003;
+    flyEl.style.visibility = show ? 'visible' : 'hidden';
+    if (!show) { labs.forEach(l => { l.el.style.opacity = 0; l.k = 0; }); return; }
+
+    const fpT = dbg && dbg.fp != null ? dbg.fp : P.flow;
+    const total = document.documentElement.scrollHeight - innerHeight, flowEnd = scrollY + rf.bottom - innerHeight;
+    const fsT = dbg && dbg.fs != null ? dbg.fs : clamp((scrollY - flowEnd) / Math.max(1, total - flowEnd));
+    fpS = dbg ? fpT : damp(fpS, fpT, reduce ? 30 : 8, dt);
+    const prevS = sS;
+    sS = dbg ? fsT : damp(sS, fsT, reduce ? 30 : 4.2, dt);
+    const vel = sS - prevS;
+    if (vel > 2e-5) dirT = 1; else if (vel < -2e-5) dirT = -1;
+    dirS = dbg ? dirT : damp(dirS, dirT, 5, dt);
+    const flying = sS > 1e-4, fp = flying ? lerp(fpS, 1, smooth(0, .01, sS)) : fpS;
+
+    /* folds */
+    folds.forEach((f, i) => {
+      f.th = f.fn(fp);
+      M4.makeTranslation(f.P.x, f.P.y, f.P.z); M4b.makeRotationAxis(f.d, f.th); M4c.makeTranslation(-f.P.x, -f.P.y, -f.P.z);
+      f.mat.copy(M4).multiply(M4b).multiply(M4c);
+      const e = win(fp, f.win[0], f.win[1]);
+      ribbons[i].opacity = smooth(0, .15, e) * (1 - smooth(.82, 1, e)) * .95;
+      mEdges[i + 1].opacity = EDGE_A * smooth(0, .12, e);
+    });
+    pieces.forEach(pc => {
+      M4.identity();
+      for (const i of pc.folds) M4.premultiply(folds[i].mat);
+      pc.node.matrix.copy(M4); pc.node.matrixWorldNeedsUpdate = true;
+    });
+    const eHalf = ease(win(fp, tl.half[0], tl.half[1])), eUp = ease(win(fp, tl.up[0], tl.up[1]));
+    foldG.rotation.set(-eUp * Math.PI / 2, 0, 0);
+    foldG.position.set(0, -.5 * eUp, -HW * .5 * eHalf * (1 - eUp));    // keep the folded strip centred as it stands up
+
+    /* placement: on the page while building, then on the flight path */
+    const kq = smooth(.64, .97, fp);
+    const idle = reduce ? 0 : smooth(.9, 1, fp);
+    if (flying) {
+      pose(sS, V3, QA); QB.copy(QA).multiply(qY180); QA.slerp(QB, (1 - dirS) / 2);
+      root.position.copy(V3);
+    } else {
+      QA.copy(qTable).slerp(qFlight0, kq);
+      root.position.copy(rest);
+      root.position.y -= clamp(rf.top / innerHeight) * halfH * 1.9;
+    }
+    QI.setFromAxisAngle(AXX, Math.sin(tt * 1.1) * .05 * idle); QA.multiply(QI);
+    root.quaternion.copy(QA);
+    root.position.y += Math.sin(tt * 1.4) * .05 * idle;
+    root.scale.setScalar(baseScale * lerp(.94, 1, enter) * (flying ? lerp(1, .62, smooth(0, .05, sS)) : 1));
+
+    /* trail */
+    const showTrail = flying && smooth(0, .03, sS) > .01;
+    trail.visible = showTrail;
+    if (showTrail) {
+      const pa = trailGeo.attributes.position, aa = trailGeo.attributes.aA, ad = trailGeo.attributes.aD;
+      const span = .05, fNow = sS * NS; let dist = 0, prevP = null;
+      for (let j = 0; j < TR; j++) {
+        const f = fNow - dirS * span * NS * (1 - j / (TR - 1)), i = clamp(Math.round(f), 0, NS), p = pPos[i];
+        pa.setXYZ(j, p.x, p.y, p.z); if (prevP) dist += p.distanceTo(prevP); prevP = p;
+        ad.setX(j, dist); aa.setX(j, (f < 0 || f > NS) ? 0 : Math.pow(j / (TR - 1), 1.6) * smooth(0, .03, sS));
+      }
+      pa.needsUpdate = ad.needsUpdate = aa.needsUpdate = true;
+    }
+
+    /* labels */
+    const stage = Math.min(5, Math.floor(fpT * 6));
+    root.updateMatrixWorld(true);
+    labs.forEach((l, i) => {
+      l.k = damp(l.k, (i === stage && !flying && enter > .6) ? 1 : 0, 9, dt);
+      if (l.k < .02) { l.el.style.opacity = 0; return; }
+      l.anchor.getWorldPosition(V3); V3.project(cam);
+      const lx = Math.min((V3.x * .5 + .5) * innerWidth + 14, innerWidth - l.el.offsetWidth - 28);
+      l.el.style.transform = `translate(${lx}px,${(-V3.y * .5 + .5) * innerHeight - 8}px)`;
+      l.el.style.opacity = l.k;
+    });
+    fr.render(sc, cam);
+  }
+
+  function resize() {
+    if (!fr) return;
+    fr.setPixelRatio(Math.min(devicePixelRatio, 2)); fr.setSize(innerWidth, innerHeight, false);
+    cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix(); buildPath();
+  }
+  addEventListener('resize', resize); resize();
+  return { frame, resize, info: () => ({ pieces: pieces.length, folds: folds.length }) };
+})();
+
+/* Scene C: product screens (canvas-textured) */
+function rr(x, c, X, Y, W, H, r, fillc) { x.beginPath(); x.roundRect ? x.roundRect(X, Y, W, H, r) : x.rect(X, Y, W, H); x.fillStyle = fillc; x.fill(); }
+const INK = '#3A1830', SOFT = '#C6CDF0', MID = '#8A78B4', ORG = '#CF2E65', PAPER = '#F5F7FF';
+function chrome(x, W, name) {
+  x.fillStyle = PAPER; x.fillRect(0, 0, W, 800); x.fillStyle = '#E3E8FB'; x.fillRect(0, 0, W, 64);
+  [0, 1, 2].forEach(i => { x.beginPath(); x.arc(40 + i * 26, 32, 7, 0, 7); x.fillStyle = SOFT; x.fill(); });
+  x.fillStyle = MID; x.font = '500 22px "Martian Mono", monospace'; x.fillText(name, 160, 40);
+}
+function drawShift(x, W, H) {
+  chrome(x, W, 'shiftgenius');
+  x.fillStyle = INK; x.font = '700 44px Archivo, system-ui, sans-serif'; x.fillText('Week 41 · Shifts', 48, 134);
+  rr(x, 0, 960, 96, 270, 52, 4, INK); x.fillStyle = PAPER; x.font = '500 22px "Martian Mono", monospace'; x.fillText('96% attendance', 986, 130);
+  const rows = [[[.02, .38, 0], [.5, .34, 1]], [[.1, .3, 1], [.46, .4, 0]], [[0, .44, 2], [.56, .28, 1]], [[.2, .36, 0], [.62, .3, 2]], [[.04, .42, 1], [.54, .26, 0]]];
+  const cols = [INK, ORG, MID];
+  rows.forEach((r, i) => { const y = 190 + i * 112; rr(x, 0, 48, y + 30, 150, 22, 4, SOFT); r.forEach(([s, w, c]) => rr(x, 0, 250 + s * 970, y + 8, w * 970, 66, 6, cols[c])); x.fillStyle = 'rgba(58,24,48,.12)'; x.fillRect(48, y + 92, 1184, 1); });
+}
+function drawLoyalty(x, W, H) {
+  chrome(x, W, 'loyalty+');
+  x.lineWidth = 46; x.strokeStyle = SOFT; x.beginPath(); x.arc(330, 430, 190, 0, 7); x.stroke();
+  x.strokeStyle = ORG; x.beginPath(); x.arc(330, 430, 190, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * .68); x.stroke();
+  x.fillStyle = INK; x.textAlign = 'center'; x.font = '800 78px Archivo, system-ui, sans-serif'; x.fillText('2,480', 330, 440);
+  x.fillStyle = MID; x.font = '500 22px "Martian Mono", monospace'; x.fillText('POINTS', 330, 484); x.textAlign = 'left';
+  [['Free coffee', '500'], ['Double points week', 'x2'], ['Birthday reward', '1,000']].forEach(([a, b], i) => {
+    const y = 210 + i * 150; rr(x, 0, 640, y, 590, 120, 4, '#FFFFFF'); x.strokeStyle = SOFT; x.lineWidth = 2; x.strokeRect(640, y, 590, 120);
+    x.fillStyle = INK; x.font = '600 34px Archivo, system-ui, sans-serif'; x.fillText(a, 672, y + 72);
+    x.fillStyle = ORG; x.textAlign = 'right'; x.font = '500 30px "Martian Mono", monospace'; x.fillText(b, 1200, y + 70); x.textAlign = 'left';
+  });
+}
+function drawBilling(x, W, H) {
+  chrome(x, W, 'meda billing');
+  const hs = [.35, .5, .42, .66, .55, .8, .62];
+  hs.forEach((h, i) => rr(x, 0, 64 + i * 170, 400 - h * 260, 120, h * 260, 4, i === 5 ? ORG : SOFT));
+  x.fillStyle = 'rgba(58,24,48,.2)'; x.fillRect(48, 400, 1184, 2);
+  [['Class 7A · October', 'PAID'], ['Class 8B · October', 'DUE'], ['Class 9C · October', 'PAID']].forEach(([a, b], i) => {
+    const y = 440 + i * 100; x.fillStyle = INK; x.font = '600 32px Archivo, system-ui, sans-serif'; x.fillText(a, 64, y + 64);
+    rr(x, 0, 1040, y + 22, 160, 52, 4, b === 'PAID' ? INK : ORG); x.fillStyle = b === 'PAID' ? PAPER : INK; x.font = '500 22px "Martian Mono", monospace'; x.fillText(b, 1090, y + 56);
+    x.fillStyle = 'rgba(58,24,48,.12)'; x.fillRect(48, y + 92, 1184, 1);
+  });
+}
+const prodG = new THREE.Group(); scene.add(prodG);
+const texs = [drawShift, drawLoyalty, drawBilling].map(fn => {
+  const c = document.createElement('canvas'); c.width = 1280; c.height = 800;
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4;
+  return { c, tex, fn };
+});
+function paintAll() { texs.forEach(t => { const x = t.c.getContext('2d'); x.textAlign = 'left'; t.fn(x, 1280, 800); t.tex.needsUpdate = true; }); }
+paintAll();
+try { document.fonts && document.fonts.load('700 40px Archivo').then(() => document.fonts.load('500 20px "Martian Mono"')).then(paintAll).catch(() => {}); } catch (e) {}
+const screens = texs.map(t => {
+  const g = new THREE.Group(); prodG.add(g);
+  const items = [...part(g, new THREE.BoxGeometry(3.7, 2.4, .1), [0, 0, 0], 'prod').items];
+  const fm = new THREE.MeshBasicMaterial({ map: t.tex, transparent: true });
+  const face = new THREE.Mesh(new THREE.PlaneGeometry(3.5, 2.2), fm); face.position.z = .056; g.add(face);
+  items.push(reg1(fm, 'none', 1, 'prod'));
+  return { g, items, k: 1 };
+});
+
+/* theme application */
+function applyTheme() {
+  readTheme();
+  reg.forEach(it => { if (it.role === 'none') return; it.c.set(T[it.role] || T.edge); it.m.color.copy(it.c); });
+}
+matchMedia('(prefers-color-scheme: dark)').addEventListener && matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+new MutationObserver(applyTheme).observe(rootEl, { attributes: true, attributeFilter: ['data-theme'] });
+
+/* intro / close tweens (anime.js drives the state) */
+if (A && !reduce) A.animate(S, { intro: 1, duration: 2600, ease: 'outQuart', delay: 350 }); else S.intro = 1;
+
+/* ---------- loop ---------- */
+const clock = new THREE.Clock(), V = new THREE.Vector3(), ACC = new THREE.Color();
+const vis = { arch: 0, prod: 0 };
+const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+const camPos = new THREE.Vector3(7.2, 4.4, 12.5), camLook = new THREE.Vector3();
+let exD = 0, prevSc = '';
+addEventListener('pointermove', ev => { mouse.tx = ev.clientX / innerWidth * 2 - 1; mouse.ty = ev.clientY / innerHeight * 2 - 1; });
+function resize() {
+  if (!renderer) return;
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.setSize(innerWidth, innerHeight, false);
+  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+}
+addEventListener('resize', resize); resize();
+
+const SS = { on: !reduce && matchMedia('(pointer:fine)').matches, t: 0, c: 0, act: false, last: 0, p: performance.now() };
+if (SS.on) addEventListener('wheel', ev => {
+  if (ev.ctrlKey || Math.abs(ev.deltaX) > Math.abs(ev.deltaY) || (ev.target.closest && ev.target.closest('textarea,select'))) return;
+  ev.preventDefault();
+  if (!SS.act) { SS.c = SS.t = scrollY; SS.last = scrollY; SS.act = true; }
+  const d = ev.deltaMode === 1 ? ev.deltaY * 34 : ev.deltaMode === 2 ? ev.deltaY * innerHeight : ev.deltaY;
+  SS.t = clamp(SS.t + d, 0, document.documentElement.scrollHeight - innerHeight);
+}, { passive: false });
+function smoothStep() {
+  const now = performance.now(), dt = Math.min((now - SS.p) / 1000, .05); SS.p = now;
+  if (!SS.act) return;
+  if (Math.abs(scrollY - SS.last) > 3) { SS.act = false; return; }    // scrolled some other way (keys, scrollbar, link)
+  SS.c = lerp(SS.c, SS.t, 1 - Math.exp(-9 * dt));
+  if (Math.abs(SS.t - SS.c) < .4) { SS.c = SS.t; SS.act = false; }
+  scrollTo({ top: SS.c, behavior: 'instant' }); SS.last = scrollY;
+}
+
+function frame() {
+  requestAnimationFrame(frame);
+  smoothStep();
+  updateScroll();
+  plane.frame();
+  if (!renderer) return;
+  const dt = Math.min(clock.getDelta(), .05), t = clock.elapsedTime;
+  const sc = sceneAt(), wide = innerWidth > 899;
+  /* Each 3D stage is tied to where its section sits on screen: it fades and travels with the page content,
+     so it arrives, pins and leaves together with the text instead of switching at a threshold. */
+  const ih = innerHeight, rS = R.svc.getBoundingClientRect(), rP = R.prod.getBoundingClientRect(), rC = R.contact.getBoundingClientRect(), cv = rC.top / ih;
+  S.close = sc === 'close' ? ease3(smooth(1, .35, cv)) : 1;           // contact: the stack assembles as you arrive
+  prevSc = sc;
+  const pHero = smooth(0, .5, rS.bottom / ih), pClose = wide ? smooth(1, .45, cv) : 0, pProd = smooth(1, .45, rP.top / ih) * smooth(0, .5, rP.bottom / ih);
+  const kv = reduce ? 40 : 18;
+  vis.arch = damp(vis.arch, Math.max(pHero, pClose), kv, dt);
+  vis.prod = damp(vis.prod, pProd, kv, dt);
+  const shArch = sc === 'close' ? -12 * clamp((cv - .12) / .88) : 12 * clamp((ih - rS.bottom) / ih);
+  const shProd = -6.2 * clamp(rP.top / ih) + 6.2 * clamp((ih - rP.bottom) / ih);
+  mouse.x = damp(mouse.x, mouse.tx, 3, dt); mouse.y = damp(mouse.y, mouse.ty, 3, dt);
+  ACC.set(T.accent);
+  const sc3 = wide ? 1 : .6;
+
+  /* A: stack */
+  const exTarget = (rS.top <= ih * .5 && rS.bottom > 0) ? smooth(0, .12, P.svc) : 0;   // stays open while the stack leaves
+  exD = damp(exD, exTarget, 3, dt);
+  const ex = sc === 'close' ? 1 - S.close : exD;
+  const pitch = Math.max(.72, lerp(.8, 2.45, ex));
+  const act = (sc === 'arch' && P.svcIn && ex > .5) ? P.svcIdx : -1;
+  const hx = wide ? 3.0 : 0;
+  const yHero = wide ? -.1 : -2.0, ySvc = wide ? -.1 : 1.6;
+  archG.scale.setScalar(sc3);
+  archG.position.set(hx, (sc === 'close' ? (wide ? -.1 : 0) : lerp(yHero, ySvc, smooth(.3, 1, P.hero))) + shArch, 0);
+  archG.rotation.set(.0 + mouse.y * .04, -.66 + P.svc * .3 + mouse.x * .1 + (reduce ? 0 : Math.sin(t * .35) * .05), 0);
+  stack.position.y = -.55;
+  layers.forEach((L, i) => {
+    L.intro = ease3(clamp(S.intro * 1.8 - (3 - i) * .25));
+    L.g.position.set(damp(L.slide, act === i ? 1.55 : 0, 1, 0) * 0 + L.slide, (1.5 - i) * pitch + (1 - L.intro) * 7, 0);
+    L.slide = damp(L.slide, act === i ? 1.55 : 0, 5, dt);
+    L.hot = damp(L.hot, act === i ? 1 : 0, 8, dt);
+    L.k = damp(L.k, act < 0 ? 1 : (i === act ? 1 : .26), 8, dt);
+    const mul = clamp(L.intro * 2.2);
+    L.items.forEach(it => { it.k = L.k; it.mul = mul; if (it.dyn) it.m.color.copy(it.c).lerp(ACC, L.hot); });
+    L.label.k = act === i ? 1 : 0;
+  });
+  if (ledTick) ledTick(t);
+  ifaces.forEach((f, i) => {
+    f.g.position.set(-SLAB.w / 2 - .35, (1.5 - i - .5) * pitch, SLAB.d / 2 + .2);
+    f.g.scale.y = Math.max(.01, pitch - .22);
+    const k = (sc === 'arch' || sc === 'flow') ? smooth(.55, .9, ex) : (sc === 'close' ? smooth(.4, .8, ex) : 0);
+    f.items.forEach(it => { it.k = k; });
+    f.label.k = k;
+  });
+  clearLabel.k = sc === 'close' ? smooth(.85, 1, S.close) : 0;
+  shadow.position.y = -1.5 * pitch - .35 - .2; shadow.scale.setScalar(1 + ex * .3);
+  shadowIt.k = clamp(1 - ex * .35);
+
+  /* C: products */
+  const a = P.a;
+  prodG.scale.setScalar(wide ? 1 : .55);
+  prodG.position.set(wide ? 2.7 : 0, (wide ? 0 : 1.5) + shProd, 0);
+  prodG.rotation.set(mouse.y * .03, mouse.x * .05, 0);
+  screens.forEach((sr, i) => {
+    const d = i - a, ad = Math.abs(d);
+    sr.g.position.set(d * 3.25, .15 - ad * .12, -ad * 1.9);
+    sr.g.rotation.set(0, -d * .5, 0);
+    sr.g.scale.setScalar(1 - ad * .1);
+    sr.k = clamp(1 - ad * .7, .14, 1);
+    sr.items.forEach(it => { it.k = sr.k; });
+    sr.g.renderOrder = 10 - Math.round(ad * 3);
+  });
+
+  /* camera */
+  let tp;
+  if (pProd > .001) tp = [0, .6, 11.5];
+  else { const k = lerp(1, 1.52, ex) * (wide ? 1 : 1.12); tp = [7.2 * k, 4.4 * k, 12.5 * k]; }
+  const ck = 1 - Math.exp(-5 * dt);
+  camPos.lerp(V.set(...tp), ck); camLook.lerp(V.set(0, 0, 0), ck);
+  camera.position.copy(camPos); camera.lookAt(camLook);
+
+  /* apply opacity */
+  for (const it of reg) it.m.opacity = it.base * vis[it.g] * it.k * it.mul;
+  archG.visible = vis.arch > .01; prodG.visible = vis.prod > .01;
+
+  scene.updateMatrixWorld(true);
+  const w = innerWidth, h = innerHeight;
+  for (const l of labels) {
+    const v = vis[l.g] * l.k;
+    if (v < .03) { l.el.style.opacity = 0; continue; }
+    l.anchor.getWorldPosition(V); V.project(camera);
+    l.el.style.transform = `translate(${(V.x * .5 + .5) * w + 12}px,${(-V.y * .5 + .5) * h - 8}px)`;
+    l.el.style.opacity = v;
+  }
+  renderer.render(scene, camera);
+}
+frame();
+</script>
+
+</body></html>
